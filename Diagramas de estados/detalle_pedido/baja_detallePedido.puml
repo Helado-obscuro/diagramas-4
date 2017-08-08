@@ -1,0 +1,26 @@
+@startuml
+scale 400 width
+
+[*] -> Esperando
+Esperando --> Recibiendo : recibe dato a eliminar
+Recibiendo --> Validando : se valida
+Validando : confirmación de usuario
+Validando --> Eliminando : Correcto
+Validando --> [*] : Cancelado
+state Eliminando {
+  state "Procesando" as long1
+  long1 : reune y valida la info
+  [*] --> long1
+  long1 --> long1 : Nueva info
+  long1 --> Verificando : se guarda
+  Verificando : Checando foreign keys
+  Verificando -> [*] : no se puede eliminar
+  Verificando --> Limpiando : correcto
+  Limpiando : se elimina el registro
+    Limpiando -> [*] : Eliminado
+}
+
+Eliminando --> [*] : Eliminado
+
+
+@enduml

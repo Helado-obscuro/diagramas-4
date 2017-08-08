@@ -1,0 +1,30 @@
+@startuml
+scale 400 width
+scale 600 height
+
+[*] -> Esperando
+Esperando --> Recibiendo : recibe
+Recibiendo -> Validando : a validar
+Validando : validando la información
+Validando --> Consultando : Correcto
+Validando --> [*] : Cancelado
+state Consultando {
+  state "Procesando" as long1
+  long1 : reune y valida la info
+  [*] --> long1
+  long1 --> long1 : Nueva info
+  long1 --> Buscando
+  Buscando : Buscando la info
+  Buscando -> [*] : no encontrado
+  Buscando --> Reuniendo : correcto
+  Reuniendo : se reune la info para mostrarla
+  Reuniendo -->[*] : informacón lista
+}
+
+Consultando -> Mostrando :correcto
+Mostrando : muestra la info recogida
+Mostrando  ->  [*]
+
+
+
+@enduml

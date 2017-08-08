@@ -1,0 +1,14 @@
+@startuml
+scale 350 width
+[*] --> Esperando
+Esperando --> Comporbación : se procesa la info
+Comporbación : verifica si el usuario y el password \n son correctos.
+Comporbación -->Rechazado : si no existe
+Rechazado -> Esperando : se intenta otra vez
+Comporbación -> Validación : si existe
+Validación --> Cargar_menu : se carga el menu
+Validación : se determann los permisos \n que tiene el usuario.
+Cargar_menu : si existe
+Cargar_menu --> [*]
+
+@enduml

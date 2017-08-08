@@ -1,0 +1,46 @@
+@startuml
+scale 600 width
+scale 900 height
+
+[*] -> Esperando
+Esperando --> Creando : se crea nueva modificación
+Creando --> Validando : se valida información
+Validando : validando la información
+Validando -> Enviando : Correcto
+Enviando --> Consultando : Correcto
+Validando --> [*] : Cancelado
+state Consultando {
+  state "Procesando" as long1
+  long1 : reune y valida la info
+  [*] --> long1
+  long1 --> long1 : Nueva info
+  long1 --> Buscando
+  Buscando : Buscando la info
+  Buscando -> [*] : no encontrado
+  Buscando --> Reuniendo : correcto
+  Reuniendo : se reune la info para mostrarla
+  Reuniendo -->[*] : informacón lista
+}
+
+Consultando --> Modificando :correcto
+state Modificando {
+  state "Validando" as long2
+  long2 : validacion contra duplicados
+  [*] --> long2
+  long2 --> long2 : Nueva info
+  long2 --> Insertando : se inserta
+  Insertando : inserta la nueva informacióon
+  Insertando -> Revisando
+  Revisando : checa la integridad de datos
+  Revisando --> [*]
+
+
+}
+
+Modificando --> Mostrando
+Mostrando : muestra la info recogida
+Mostrando  -->  [*]
+
+
+
+@enduml

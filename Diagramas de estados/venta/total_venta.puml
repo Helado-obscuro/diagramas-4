@@ -1,0 +1,38 @@
+@startuml
+scale 500 width
+scale 700 height
+
+[*] -> Esperando
+
+Esperando --> Creando : recibe datos
+Creando --> Validando: se validan datos
+Creando : se crea proceso de consulta
+Validando : validando la información
+Validando --> Consultando : Correcto
+Validando --> Creando : si no pasa la  \n validación
+Validando --> [*] : Cancelado
+state Consultando {
+  state "Procesando" as long1
+  long1 : reune y valida la info
+  [*] --> long1
+  long1 --> long1 : Nueva info
+  long1 --> Ejecutando
+  Ejecutando : ejecuta el SQL query
+  Ejecutando -> [*] : no encontrado
+  Ejecutando --> Reuniendo : correcto
+  Reuniendo : se reune la info para mostrarla
+  Reuniendo -->[*] : informacón lista
+}
+
+Consultando -> Retorna :correcto
+Retorna : retorna el total
+
+Consultando --> Mensaje :incorrecto
+Mensaje : Muestra mensaje de no encontrado
+
+Retorna  -->  [*]
+Mensaje -> [*]
+
+
+
+@enduml

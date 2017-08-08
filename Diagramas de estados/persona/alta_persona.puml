@@ -1,0 +1,27 @@
+@startuml
+scale 400 width
+
+[*] -> Esperando
+Esperando --> Creado :se recibe info
+Creado -> Validando :  se validan \n los campos
+Creado: se crea proceso de alta
+Validando --> Guardando : Correcto
+Validando -> Creado : si no pasan \n la validación
+
+state Guardando {
+  state "Procesando" as long1
+  long1 : reune y valida la info
+  [*] --> long1
+  long1 --> long1 : Nueva info
+  long1 --> Verificando : a verificar
+  Verificando : se valida que no existan duplicados
+  Verificando --> Insertando : se guarda
+  Insertando : se inserta el nuevo registro en la BD
+  Insertando -> [*] : fin
+}
+Guardando --> Rechazado : cancelado
+Rechazado --> Validando
+Guardando --> [*] : Correcto
+
+
+@enduml
